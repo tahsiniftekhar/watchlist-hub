@@ -7,4 +7,26 @@
     @apply bg-bg text-text;
     font-family: "Inter", sans-serif;
   }
+
+  /* Custom Scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 8px; /* width of the scrollbar */
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #1e1e1e; /* color of the track - surface */
+    border-radius: 10px; /* roundness of the track */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #444444; /* color of the scroll thumb - border color */
+    border-radius: 10px; /* roundness of the scroll thumb */
+    border: 2px solid #1e1e1e; /* creates padding around scroll thumb - surface */
+  }
+
+  /* For Firefox */
+  * {
+    scrollbar-width: thin; /* "auto" or "thin" */
+    scrollbar-color: #444444 #1e1e1e; /* thumb color track color */
+  }
 }

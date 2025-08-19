@@ -1,6 +1,8 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../lib/auth-utils";
+import { pageTransition, buttonMotion } from "@/lib/motion-utils";
+import { useAuth } from "@/lib/auth-utils";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -17,33 +19,65 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center">
-      <form
+    <motion.div
+      variants={pageTransition}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      className="h-screen flex items-center justify-center bg-bg"
+    >
+      <motion.form
         onSubmit={handleSubmit}
-        className="bg-surface rounded-2xl shadow-2xl p-8 w-full max-w-sm space-y-6"
+        className="bg-surface rounded-3xl shadow-2xl p-10 w-full max-w-md space-y-8 border border-border"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
       >
-        <h1 className="text-2xl font-bold text-center">Welcome Back</h1>
-        {error && <p className="text-primary">{error}</p>}
-        <input
-          className="w-full px-4 py-2 rounded bg-bg border border-muted focus:outline-none focus:border-primary"
-          placeholder="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          className="w-full px-4 py-2 rounded bg-bg border border-muted focus:outline-none focus:border-primary"
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button className="w-full bg-primary py-2 rounded font-semibold hover:bg-opacity-90 transition">
+        <h1 className="text-3xl font-extrabold text-center text-primary mb-2 tracking-tight">
+          Sign in to WatchlistHub
+        </h1>
+        <p className="text-center text-muted-foreground mb-6 text-base">
+          Enter your credentials to continue
+        </p>
+        <AnimatePresence>
+          {error && (
+            <motion.p
+              className="text-danger text-center font-semibold mb-2"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              {error}
+            </motion.p>
+          )}
+        </AnimatePresence>
+        <div className="space-y-4">
+          <input
+            className="w-full px-4 py-3 rounded-lg bg-bg border border-border text-text placeholder:text-muted focus:outline-none focus:border-primary transition"
+            placeholder="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            autoFocus
+          />
+          <input
+            className="w-full px-4 py-3 rounded-lg bg-bg border border-border text-text placeholder:text-muted focus:outline-none focus:border-primary transition"
+            placeholder="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <motion.button
+          {...buttonMotion}
+          className="w-full bg-primary text-text py-3 rounded-lg font-bold text-lg shadow-md hover:bg-primary-dark transition mt-2"
+        >
           Login
-        </button>
-      </form>
-    </div>
+        </motion.button>
+      </motion.form>
+    </motion.div>
   );
 }

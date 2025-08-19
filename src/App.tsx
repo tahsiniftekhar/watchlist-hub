@@ -14,7 +14,7 @@ export default function App() {
 
   useEffect(() => {
     const path = location.pathname;
-    let title = "Movie Watchlist";
+    let title = "WatchlistHub";
 
     const routeTitles: { [key: string]: string } = {
       "/": "Search Movies",
@@ -32,11 +32,11 @@ export default function App() {
       }
     }
 
-    if (title === "Movie Watchlist" && path !== "/") {
+    if (title === "WatchlistHub" && path !== "/") {
       title = "Page Not Found";
     }
 
-    document.title = title;
+    document.title = `${title} | WatchlistHub`;
   }, [location.pathname]);
 
   return (

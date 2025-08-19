@@ -1,69 +1,66 @@
-# React + TypeScript + Vite
+# WatchlistHub: Your Personal Movie Watchlist App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![WatchlistHub Demo Placeholder](https://via.placeholder.com/800x400?text=Demo+Video+Placeholder)
 
-Currently, two official plugins are available:
+WatchlistHub is a modern web application for managing your personal movie watchlist. Built with React and Tailwind CSS.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tools & Tech Stack
 
-## Expanding the ESLint configuration
+- **React**: Frontend library for building the user interface.
+- **Tailwind CSS**: Utility-first CSS framework for rapid UI development and styling.
+- **React Router DOM**: For declarative routing within the application.
+- **Axios**: Promise-based HTTP client for API requests.
+- **Lucide React**: Open-source icon library for clear and modern iconography.
+- **TMDB API**: Public API for movie data.
+- **Git + GitHub**: For version control and project hosting.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Setup and Run Instructions
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1.  **Clone the repository:**
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+    ```bash
+    git clone https://github.com/your-username/movie-watchlist.git
+    cd movie-watchlist
+    ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2.  **Install dependencies:**
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+    ```bash
+    npm install
+    ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+3.  **Set up TMDB API Key:**
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+    - Sign up for a free API key at [The Movie Database (TMDB)](https://www.themoviedb.org/).
+    - Create a `.env` file in the project root (if it doesn't exist) and add your API key:
+      ```
+      VITE_TMDB_API_KEY=YOUR_API_KEY_HERE
+      ```
+
+4.  **Run the development server:**
+
+    ```bash
+    npm run dev
+    ```
+
+    The application will be accessible at `http://localhost:5173` (or another port if 5173 is in use).
+
+5.  **Build for production:**
+    ```bash
+    npm run build
+    ```
+
+## Basic Documentation
+
+- **Authentication**: A mock authentication system is used. You can log in with any email and password combination. The user session is stored in `localStorage`.
+- **Watchlist Persistence**: The watchlist data is stored in `localStorage` under a user-specific key, ensuring each logged-in user has their unique watchlist.
+- **Responsive Design**: The application utilizes Tailwind CSS breakpoints and flexible layouts to adapt to various screen sizes, from mobile phones to large desktops.
+
+## Demo Video
+
+[Google Drive Link to Demo Video - Coming Soon]
+(https://drive.google.com/your-demo-video-link-here)
+
+---
+
+Feel free to explore the codebase and provide feedback!
