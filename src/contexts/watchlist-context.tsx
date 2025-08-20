@@ -1,4 +1,4 @@
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useAuth } from "@/lib/auth-utils";
 import { WatchlistContext } from "@/lib/watchlist-utils";
 import type { IMovie } from "@/types/movie.types";

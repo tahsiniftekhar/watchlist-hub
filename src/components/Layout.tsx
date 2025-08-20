@@ -57,7 +57,7 @@ export default function Layout() {
           WatchlistHub
         </Link>
 
-        <nav className="hidden md:flex items-center gap-5 text-base">
+        <nav className="hidden md:flex items-center gap-5 text-sm">
           <NavItem to="/search" icon={<Search size={20} />} label="Search" />
           {user ? (
             <>
@@ -97,7 +97,7 @@ export default function Layout() {
             initial="hidden"
             animate="visible"
             exit="hidden"
-            className="md:hidden flex flex-col items-end gap-4 p-4 bg-surface backdrop-blur w-full z-10"
+            className="md:hidden flex flex-col items-end gap-4 p-4 bg-surface backdrop-blur w-full z-10 text-xs"
           >
             <NavLink
               to="/search"

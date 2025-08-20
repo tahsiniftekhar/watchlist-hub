@@ -38,7 +38,7 @@ export default function MovieCard({ movie }: { movie: IMovie }) {
     >
       <Link
         to={`/movie/${movie.id}`}
-        className="block rounded-lg overflow-hidden bg-surface hover:shadow-xl transition relative group"
+        className="block shadow-sm shadow-gray-950 overflow-hidden bg-surface hover:shadow-xl transition relative group"
       >
         <img
           src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}

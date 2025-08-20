@@ -8,7 +8,7 @@ export default function SearchBar({
 }) {
   const [query, setQuery] = useState("");
   return (
-    <div className="relative w-full max-w-md mx-auto">
+    <div className="relative w-full max-w-md mx-auto py-6">
       <input
         className="w-full rounded-full py-2 pl-10 pr-4 bg-surface border border-border focus:outline-none focus:border-primary text-text placeholder:text-muted"
         placeholder="Search movies..."
