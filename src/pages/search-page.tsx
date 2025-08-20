@@ -1,11 +1,11 @@
 import MovieCard from "@/components/movie-card";
 import SearchBar from "@/components/searchbar";
-import { pageTransition, slideUp, staggerContainer } from "@/lib/motion-utils";
-import { searchMovies } from "@/services/tmdb";
+import { pageTransition, staggerContainer } from "@/lib/motion-utils";
 import type { IMovie } from "@/types/movie.types";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { searchMovies } from "@/services/tmdb";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
@@ -13,7 +13,10 @@ export default function SearchPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!query) return setMovies([]);
+    if (!query) {
+      setMovies([]);
+      return;
+    }
     const id = setTimeout(async () => {
       setLoading(true);
       try {
@@ -35,6 +38,7 @@ export default function SearchPage() {
       className="space-y-6"
     >
       <SearchBar onSearch={setQuery} />
+
       {loading && (
         <div className="flex justify-center items-center h-20">
           <Loader2 className="animate-spin text-primary" size={32} />
@@ -48,9 +52,7 @@ export default function SearchPage() {
         className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
       >
         {movies.map((m) => (
-          <motion.div key={m.id} variants={slideUp}>
-            <MovieCard movie={m} />
-          </motion.div>
+          <MovieCard key={m.id} movie={m} />
         ))}
       </motion.div>
 

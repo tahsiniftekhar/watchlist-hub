@@ -53,6 +53,11 @@ export const buttonMotion = {
   whileTap: { scale: 0.95 },
 };
 
+export const iconButtonMotion = {
+  whileHover: { scale: 1.12, rotate: 3 },
+  whileTap: { scale: 0.9, rotate: -3 },
+};
+
 // Card hover/tap (lift effect)
 export const cardMotion = {
   whileHover: { scale: 1.05, boxShadow: "0 8px 24px rgba(0,0,0,0.2)" },

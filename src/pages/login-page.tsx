@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../lib/auth-utils";
 import { pageTransition, buttonMotion } from "@/lib/motion-utils";
-import { useAuth } from "@/lib/auth-utils";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -39,14 +39,14 @@ export default function LoginPage() {
         <p className="text-center text-muted-foreground mb-6 text-base">
           Enter your credentials to continue
         </p>
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {error && (
             <motion.p
               className="text-danger text-center font-semibold mb-2"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.25 }}
             >
               {error}
             </motion.p>

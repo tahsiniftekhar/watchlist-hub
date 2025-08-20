@@ -14,6 +14,37 @@ function Footer() {
   );
 }
 
+function NavItem({
+  to,
+  icon,
+  label,
+}: {
+  to: string;
+  icon: React.ReactNode;
+  label: string;
+}) {
+  return (
+    <NavLink to={to} className="relative px-1 py-0.5">
+      {({ isActive }) => (
+        <span
+          className={`flex items-center gap-1 transition ${
+            isActive ? "text-primary" : "text-muted hover:text-primary"
+          }`}
+        >
+          {icon}
+          {label}
+          {isActive && (
+            <motion.span
+              layoutId="nav-underline"
+              className="absolute left-0 -bottom-1 h-[2px] w-full bg-primary rounded"
+            />
+          )}
+        </span>
+      )}
+    </NavLink>
+  );
+}
+
 export default function Layout() {
   const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,31 +56,16 @@ export default function Layout() {
         <Link to="/search" className="text-xl font-bold text-primary">
           WatchlistHub
         </Link>
-        <nav className="hidden md:flex items-center gap-4 text-sm">
-          <NavLink
-            to="/search"
-            className={({ isActive }) =>
-              `flex items-center gap-1 hover:text-primary transition ${
-                isActive ? "text-primary" : "text-muted"
-              } active:scale-95`
-            }
-          >
-            <Search size={20} />
-            Search
-          </NavLink>
+
+        <nav className="hidden md:flex items-center gap-5 text-base">
+          <NavItem to="/search" icon={<Search size={20} />} label="Search" />
           {user ? (
             <>
-              <NavLink
+              <NavItem
                 to="/watchlist"
-                className={({ isActive }) =>
-                  `flex items-center gap-1 hover:text-primary transition ${
-                    isActive ? "text-primary" : "text-muted"
-                  } active:scale-95`
-                }
-              >
-                <Heart size={20} />
-                Watchlist
-              </NavLink>
+                icon={<Heart size={20} />}
+                label="Watchlist"
+              />
               <button
                 onClick={logout}
                 className="flex items-center gap-1 hover:text-primary transition text-muted active:scale-95"
@@ -59,23 +75,15 @@ export default function Layout() {
               </button>
             </>
           ) : (
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                `flex items-center gap-1 hover:text-primary transition ${
-                  isActive ? "text-primary" : "text-muted"
-                } active:scale-95`
-              }
-            >
-              <LogIn size={20} />
-              Login
-            </NavLink>
+            <NavItem to="/login" icon={<LogIn size={20} />} label="Login" />
           )}
         </nav>
+
         <div className="md:hidden flex items-center">
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={() => setIsMobileMenuOpen((s) => !s)}
             className="active:scale-95"
+            aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -89,7 +97,7 @@ export default function Layout() {
             initial="hidden"
             animate="visible"
             exit="hidden"
-            className="md:hidden flex flex-col items-end gap-4 p-4 bg-surface backdrop-blur w-full z-10 text-xs"
+            className="md:hidden flex flex-col items-end gap-4 p-4 bg-surface backdrop-blur w-full z-10"
           >
             <NavLink
               to="/search"

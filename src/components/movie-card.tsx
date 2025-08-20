@@ -1,14 +1,18 @@
 import { useAuth } from "@/lib/auth-utils";
+import { cardMotion, iconButtonMotion, slideUp } from "@/lib/motion-utils";
 import { useWatchlist } from "@/lib/watchlist-utils";
 import type { IMovie } from "@/types/movie.types";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Plus, Star } from "lucide-react";
+import { useRef } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 export default function MovieCard({ movie }: { movie: IMovie }) {
   const { user } = useAuth();
   const { watchlist, addMovie, removeMovie } = useWatchlist();
+  const ref = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
 
   const isInWatchlist = watchlist.some((m) => m.id === movie.id);
 
@@ -26,15 +30,15 @@ export default function MovieCard({ movie }: { movie: IMovie }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      whileHover={{ scale: 1.05, boxShadow: "0 8px 24px rgba(0,0,0,0.2)" }}
-      whileTap={{ scale: 0.97 }}
+      ref={ref}
+      variants={slideUp}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      {...cardMotion}
     >
       <Link
         to={`/movie/${movie.id}`}
-        className="block rounded-lg overflow-hidden bg-surface transition relative group"
+        className="block rounded-lg overflow-hidden bg-surface hover:shadow-xl transition relative group"
       >
         <img
           src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
@@ -53,8 +57,10 @@ export default function MovieCard({ movie }: { movie: IMovie }) {
                 ? "bg-danger hover:bg-danger-dark"
                 : "bg-primary hover:bg-primary-dark"
             } transition opacity-0 group-hover:opacity-100 active:scale-95`}
-            whileHover={{ scale: 1.15 }}
-            whileTap={{ scale: 0.9 }}
+            {...iconButtonMotion}
+            aria-label={
+              isInWatchlist ? "Remove from watchlist" : "Add to watchlist"
+            }
           >
             {isInWatchlist ? <Star size={18} /> : <Plus size={18} />}
           </motion.button>
