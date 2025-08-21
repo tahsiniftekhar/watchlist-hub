@@ -1,5 +1,5 @@
 {
-  "name": "movie-watchlist",
+  "name": "watchlist-hub",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -18,8 +18,6 @@
     "react-dom": "^19.1.1",
     "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.8.1",
-    "react-window": "^1.8.11",
-    "react-window-infinite-loader": "^1.0.10",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
@@ -27,8 +25,6 @@
     "@types/node": "^24.3.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
-    "@types/react-window": "^1.8.8",
-    "@types/react-window-infinite-loader": "^1.0.9",
     "@vitejs/plugin-react-swc": "^4.0.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.33.0",

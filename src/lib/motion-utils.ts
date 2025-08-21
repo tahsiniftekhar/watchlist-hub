@@ -34,6 +34,11 @@ export const slideInRight: Variants = {
     x: 0,
     transition: { duration: 0.4, ease: "easeOut" },
   },
+  exit: {
+    opacity: 0,
+    x: 40,
+    transition: { duration: 0.3, ease: "easeIn" },
+  },
 };
 
 // Staggered container
@@ -66,15 +71,15 @@ export const cardMotion = {
 
 // Page transition (enter/exit animations)
 export const pageTransition: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.4, ease: "easeOut" },
-    },
-    exit: {
-      opacity: 0,
-      y: -20,
-      transition: { duration: 0.3, ease: "easeIn" },
-    },
-  };
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+    transition: { duration: 0.3, ease: "easeIn" },
+  },
+};

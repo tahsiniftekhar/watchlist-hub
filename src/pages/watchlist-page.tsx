@@ -1,18 +1,20 @@
 import { iconButtonMotion, pageTransition, slideUp } from "@/lib/motion-utils";
 import { useWatchlist } from "@/lib/watchlist-utils";
 import type { IMovie } from "@/types/movie.types";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
-import { useRef } from "react";
 import { Link } from "react-router-dom";
 
 export default function WatchlistPage() {
   const { watchlist, removeMovie } = useWatchlist();
-  const ref = useRef<HTMLLIElement | null>(null);
-  const inView = useInView(ref, {
-    once: true,
-    margin: "0px 0px -80px 0px",
-  });
+
+  const placeholder = "/fallback-img.svg";
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    img.onerror = null;
+    img.src = placeholder;
+    img.srcset = "";
+  };
 
   if (watchlist.length === 0)
     return (
@@ -47,15 +49,14 @@ export default function WatchlistPage() {
     >
       <h1 className="text-3xl font-bold mb-6">My Watchlist</h1>
 
-      <ul className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4 sm:gap-5 lg:gap-6">
         {watchlist.map((movie: IMovie, index) => {
           return (
             <motion.li
-              ref={ref}
               key={movie.id}
               variants={slideUp}
               initial="hidden"
-              animate={inView ? "visible" : "hidden"}
+              animate="visible"
               transition={{
                 duration: 0.4,
                 delay: index * 0.05,
@@ -70,9 +71,21 @@ export default function WatchlistPage() {
             >
               <Link to={`/movie/${movie.id}`}>
                 <img
-                  src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
+                  src={
+                    movie.poster_path
+                      ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
+                      : placeholder
+                  }
+                  srcSet={
+                    movie.poster_path
+                      ? `https://image.tmdb.org/t/p/w185${movie.poster_path} 185w, https://image.tmdb.org/t/p/w342${movie.poster_path} 342w, https://image.tmdb.org/t/p/w500${movie.poster_path} 500w`
+                      : undefined
+                  }
+                  sizes="(max-width: 640px) 185px, (max-width: 1024px) 342px, 500px"
                   alt={movie.title}
                   className="aspect-[2/3] w-full object-cover"
+                  loading="lazy"
+                  onError={handleImgError}
                 />
 
                 <motion.button

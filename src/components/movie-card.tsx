@@ -52,22 +52,27 @@ export default function MovieCard({ movie }: { movie: IMovie }) {
     >
       <Link
         to={`/movie/${movie.id}`}
-        className="block shadow-sm shadow-gray-950 overflow-hidden bg-surface hover:shadow-xl transition relative group"
+        className="block overflow-hidden bg-surface/80 ring-1 ring-border/40 hover:ring-border transition relative group rounded-sm shadow-sm shadow-gray-950"
       >
         <img
           src={posterSrc}
           alt={movie.title}
-          className="w-full aspect-[2/3] object-cover"
+          className="w-full aspect-[2/3] object-cover will-change-transform duration-300 ease-out group-hover:scale-[1.04]"
           loading="lazy"
           srcSet={posterSrcSet}
           sizes="(max-width: 600px) 185px, (max-width: 900px) 342px, 500px"
           onError={handleImgError}
         />
+        {typeof movie.vote_average === "number" && (
+          <div className="absolute top-2 left-2 z-10 rounded-full bg-black/70 backdrop-blur px-2 py-1 text-[11px] font-semibold text-white/90">
+            ⭐ {movie.vote_average.toFixed(1)}
+          </div>
+        )}
 
         {user && (
           <motion.button
             onClick={handleWatchlistClick}
-            className={`absolute top-2 right-2 p-2 rounded-full text-text ${
+            className={`absolute top-2 right-2 z-10 p-2 rounded-full text-text ${
               isInWatchlist
                 ? "bg-danger hover:bg-danger-dark"
                 : "bg-primary hover:bg-primary-dark"
@@ -81,14 +86,20 @@ export default function MovieCard({ movie }: { movie: IMovie }) {
           </motion.button>
         )}
 
-        <div className="p-3">
-          <h3 className="font-semibold truncate text-base md:text-lg">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        <div className="absolute inset-x-0 bottom-0 p-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+          <h3 className="font-semibold text-white text-sm sm:text-base truncate">
             {movie.title}
           </h3>
-          <p className="text-sm text-muted">
-            {movie.release_date?.slice(0, 4)}
-          </p>
+          <div className="mt-1 flex items-center gap-2 text-[11px] text-white/80">
+            {movie.release_date?.slice(0, 4) && (
+              <span>{movie.release_date.slice(0, 4)}</span>
+            )}
+          </div>
         </div>
+
+        <div className="absolute inset-0 ring-0 ring-primary/0 group-hover:ring-2 group-hover:ring-primary/30 transition" />
       </Link>
     </motion.div>
   );

@@ -52,7 +52,7 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-surface backdrop-blur sticky top-0 z-20 px-4 py-3 flex justify-between items-center md:px-8">
+      <header className="bg-surface backdrop-blur sticky top-0 z-20 px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-5 flex justify-between items-center">
         <Link to="/search" className="text-xl font-bold text-primary">
           WatchlistHub
         </Link>
@@ -154,7 +154,7 @@ export default function Layout() {
         )}
       </AnimatePresence>
 
-      <main className="flex-1 p-4 max-w-7xl mx-auto w-full">
+      <main className="flex-1 p-4 sm:p-6 md:p-8 max-w-full mx-auto w-full">
         <AnimatePresence mode="wait">
           <Outlet key={location.pathname} />
         </AnimatePresence>

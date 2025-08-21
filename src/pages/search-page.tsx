@@ -1,15 +1,13 @@
+import MovieCard from "@/components/movie-card";
 import SearchBar from "@/components/searchbar";
-import { Cell } from "@/components/virtualized-cell";
+import { movieSuggestions } from "@/constants";
 import { useWindowSize } from "@/hooks/use-window-size";
 import { pageTransition } from "@/lib/motion-utils";
 import { searchMovies } from "@/services/tmdb";
 import type { IMovie } from "@/types/movie.types";
 import { motion } from "framer-motion";
 import { Film, Loader2 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { FixedSizeGrid as Grid } from "react-window";
-import InfiniteLoader from "react-window-infinite-loader";
-import { movieSuggestions } from "@/constants";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
@@ -45,7 +43,7 @@ export default function SearchPage() {
 
   const hasMore = page < totalPages;
 
-  const loadMore = async () => {
+  const loadMore = useCallback(async () => {
     if (!hasMore || loading) return;
     setLoading(true);
     try {
@@ -57,35 +55,85 @@ export default function SearchPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [hasMore, loading, page, query]);
 
   const columnCount = useMemo(() => {
     if (width < 420) return 1;
     if (width < 768) return 2;
     if (width < 1024) return 3;
-    if (width < 1280) return 4;
-    if (width < 1440) return 5;
-    return 6;
+    if (width < 1280) return 3;
+    if (width < 1440) return 4;
+    if (width < 1920) return 6;
+    if (width < 2560) return 8;
+    if (width < 3840) return 10;
+    return 12;
   }, [width]);
 
-  const rowCount = hasMore
-    ? Math.ceil(movies.length / columnCount) + 1
-    : Math.ceil(movies.length / columnCount);
-
-  const isItemLoaded = (rowIndex: number) => {
-    const index = rowIndex * columnCount;
-    return index < movies.length;
-  };
-
-  const itemWidth = 180;
-  const itemHeight = 370;
   const gap = 16;
+  const containerPadding = useMemo(() => {
+    if (width < 640) return 32;
+    if (width < 768) return 48;
+    return 64;
+  }, [width]);
+  const maxContentWidth = Math.max(
+    320,
+    Math.min(width - containerPadding, 1800)
+  );
 
-  const columnWidth = itemWidth + gap;
-  const rowHeight = itemHeight + gap;
+  const itemWidth = Math.floor(
+    (maxContentWidth - gap * (columnCount - 1)) / columnCount
+  );
+  const gridStyle = {
+    width: Math.min(
+      maxContentWidth,
+      itemWidth * columnCount + gap * (columnCount - 1)
+    ),
+    margin: "0 auto",
+  } as const;
 
-  const gridWidth = Math.min(width - 40, columnCount * columnWidth);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    if (!hasMore) return;
+    const node = sentinelRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          loadMore();
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px 0px 1000px 0px",
+        threshold: 0,
+      }
+    );
+    observer.observe(node);
+
+    const rect = node.getBoundingClientRect();
+    if (rect.top <= window.innerHeight + 1000) {
+      loadMore();
+    }
+
+    return () => observer.disconnect();
+  }, [hasMore, loadMore]);
+
+  useEffect(() => {
+    if (!hasMore) return;
+    const onScroll = () => {
+      const nearBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 800;
+      if (nearBottom) {
+        loadMore();
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [hasMore, loadMore]);
   return (
     <motion.div
       variants={pageTransition}
@@ -138,46 +186,29 @@ export default function SearchPage() {
       )}
 
       {movies.length > 0 && (
-        <InfiniteLoader
-          isItemLoaded={isItemLoaded}
-          itemCount={rowCount}
-          loadMoreItems={loadMore}
+        <div
+          style={{
+            ...gridStyle,
+            display: "grid",
+            gap: `${gap}px`,
+            gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+          }}
         >
-          {({ onItemsRendered, ref }) => (
-            <Grid
-              columnCount={columnCount}
-              columnWidth={columnWidth}
-              rowCount={rowCount}
-              rowHeight={rowHeight}
-              height={800}
-              width={gridWidth}
-              style={{ margin: "0 auto", overflow: "hidden" }}
-              onItemsRendered={({
-                visibleRowStartIndex,
-                visibleRowStopIndex,
-                overscanRowStartIndex,
-                overscanRowStopIndex,
-              }) => {
-                onItemsRendered({
-                  overscanStartIndex: overscanRowStartIndex,
-                  overscanStopIndex: overscanRowStopIndex,
-                  visibleStartIndex: visibleRowStartIndex,
-                  visibleStopIndex: visibleRowStopIndex,
-                });
-              }}
-              ref={ref}
-            >
-              {(props) => (
-                <Cell
-                  {...props}
-                  movies={movies}
-                  columnCount={columnCount}
-                  loading={loading}
-                />
-              )}
-            </Grid>
+          {movies.map((m) => (
+            <MovieCard key={m.id} movie={m} />
+          ))}
+        </div>
+      )}
+
+      {movies.length > 0 && (
+        <div
+          ref={sentinelRef}
+          className="h-12 flex items-center justify-center"
+        >
+          {loading && page > 1 && (
+            <Loader2 className="animate-spin text-primary" size={24} />
           )}
-        </InfiniteLoader>
+        </div>
       )}
 
       {!loading && query && movies.length === 0 && (
