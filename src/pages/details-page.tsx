@@ -57,6 +57,27 @@ export default function DetailsPage() {
     return <p className="text-center text-muted mt-20">Movie not found.</p>;
   }
 
+  const rating = movie.vote_average ?? 0;
+  const placeholder = "/fallback-img.svg";
+  const backdropSrc = movie.backdrop_path
+    ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
+    : placeholder;
+  const backdropSrcSet = movie.backdrop_path
+    ? `https://image.tmdb.org/t/p/w780${movie.backdrop_path} 780w, https://image.tmdb.org/t/p/w1280${movie.backdrop_path} 1280w`
+    : undefined;
+  const posterSrc = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+    : placeholder;
+  const posterSrcSet = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w185${movie.poster_path} 185w, https://image.tmdb.org/t/p/w300${movie.poster_path} 300w`
+    : undefined;
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    img.onerror = null;
+    img.src = placeholder;
+    img.srcset = "";
+  };
+
   return (
     <div className="max-w-5xl mx-auto">
       <div className="relative">
@@ -68,23 +89,25 @@ export default function DetailsPage() {
           <ChevronLeft size={24} />
         </button>
         <img
-          src={`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`}
+          src={backdropSrc}
           alt=""
           className="w-full h-64 md:h-96 object-cover rounded-xl"
           loading="lazy"
-          srcSet={`https://image.tmdb.org/t/p/w780${movie.backdrop_path} 780w, https://image.tmdb.org/t/p/w1280${movie.backdrop_path} 1280w`}
+          srcSet={backdropSrcSet}
           sizes="(max-width: 768px) 780px, 1280px"
+          onError={handleImgError}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-bg to-transparent rounded-xl" />
       </div>
       <div className="-mt-20 relative z-10 flex gap-6">
         <img
-          src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+          src={posterSrc}
           alt={movie.title}
           className="w-40 rounded shadow-2xl"
           loading="lazy"
-          srcSet={`https://image.tmdb.org/t/p/w185${movie.poster_path} 185w, https://image.tmdb.org/t/p/w300${movie.poster_path} 300w`}
+          srcSet={posterSrcSet}
           sizes="160px"
+          onError={handleImgError}
         />
         <div className="flex-1">
           <h1 className="text-3xl sm:text-4xl font-bold">{movie.title}</h1>
@@ -93,7 +116,7 @@ export default function DetailsPage() {
             {movie.genres && movie.genres.length > 0 && " • "}
             {movie.genres?.map((g) => g.name).join(", ")}
           </p>
-          {movie.vote_average > 0 && (
+          {rating > 0 && (
             <p className="flex items-center gap-1 text-text text-base sm:text-lg mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +130,7 @@ export default function DetailsPage() {
                   clipRule="evenodd"
                 />
               </svg>
-              {movie.vote_average.toFixed(1)} / 10
+              {rating.toFixed(1)} / 10
             </p>
           )}
           {user && (

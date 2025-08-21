@@ -6,6 +6,7 @@ export interface IMovie {
   backdrop_path?: string;
   genres?: { id: number; name: string }[];
   overview?: string;
+  vote_average?: number;
 }
 
 export type WatchlistContextType = {

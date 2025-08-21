@@ -1,0 +1,28 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="256"
+  height="384"
+  viewBox="0 0 256 384"
+  fill="none"
+>
+  <!-- Background rectangle (surface) -->
+  <rect width="256" height="384" rx="16" fill="#161616" />
+
+  <!-- Movie reel circles (muted gray) -->
+  <circle cx="72" cy="96" r="20" fill="#444444" />
+  <circle cx="184" cy="96" r="20" fill="#444444" />
+  <circle cx="72" cy="192" r="20" fill="#444444" />
+  <circle cx="184" cy="192" r="20" fill="#444444" />
+
+  <!-- Play icon in the center (primary red) -->
+  <polygon
+    points="108,256 108,336 176,296"
+    fill="#E31C25"
+    stroke="#BB000E"
+    stroke-width="4"
+    stroke-linejoin="round"
+  />
+
+  <!-- Text line placeholder (muted foreground) -->
+  <rect x="48" y="352" width="160" height="12" rx="6" fill="#888888" />
+</svg>

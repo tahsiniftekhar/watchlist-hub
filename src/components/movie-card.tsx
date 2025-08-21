@@ -28,6 +28,20 @@ export default function MovieCard({ movie }: { movie: IMovie }) {
     }
   };
 
+  const placeholder = "/fallback-img.svg";
+  const posterSrc = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
+    : placeholder;
+  const posterSrcSet = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w185${movie.poster_path} 185w, https://image.tmdb.org/t/p/w342${movie.poster_path} 342w, https://image.tmdb.org/t/p/w500${movie.poster_path} 500w`
+    : undefined;
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    img.onerror = null;
+    img.src = placeholder;
+    img.srcset = "";
+  };
+
   return (
     <motion.div
       ref={ref}
@@ -41,12 +55,13 @@ export default function MovieCard({ movie }: { movie: IMovie }) {
         className="block shadow-sm shadow-gray-950 overflow-hidden bg-surface hover:shadow-xl transition relative group"
       >
         <img
-          src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
+          src={posterSrc}
           alt={movie.title}
           className="w-full aspect-[2/3] object-cover"
           loading="lazy"
-          srcSet={`https://image.tmdb.org/t/p/w185${movie.poster_path} 185w, https://image.tmdb.org/t/p/w342${movie.poster_path} 342w, https://image.tmdb.org/t/p/w500${movie.poster_path} 500w`}
+          srcSet={posterSrcSet}
           sizes="(max-width: 600px) 185px, (max-width: 900px) 342px, 500px"
+          onError={handleImgError}
         />
 
         {user && (

@@ -5,10 +5,11 @@ import { pageTransition } from "@/lib/motion-utils";
 import { searchMovies } from "@/services/tmdb";
 import type { IMovie } from "@/types/movie.types";
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import { Film, Loader2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { FixedSizeGrid as Grid } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
+import { movieSuggestions } from "@/constants";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
@@ -93,12 +94,47 @@ export default function SearchPage() {
       exit="exit"
       className="space-y-6"
     >
-      <SearchBar onSearch={setQuery} />
+      <SearchBar value={query} onSearch={setQuery} />
 
       {loading && page === 1 && (
         <div className="flex justify-center items-center h-20">
           <Loader2 className="animate-spin text-primary" size={32} />
         </div>
+      )}
+
+      {!loading && !query && (
+        <motion.div
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.22, ease: "easeOut" }}
+          className="mx-auto max-w-xl bg-gradient-to-b from-surface/60 to-surface/30 backdrop-blur p-8 text-center ring-1 ring-border/40 shadow-md shadow-gray-950"
+        >
+          <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-primary/5">
+            <Film size={22} className="text-primary/70" />
+          </div>
+          <h2 className="text-base font-medium text-text/90">
+            Find your next movie
+          </h2>
+          <p className="mt-1 text-sm text-muted">
+            Search by title, genre, or year to start exploring.
+          </p>
+          <div className="mt-5 space-y-3">
+            <span className="block text-xs uppercase tracking-wide text-muted/80">
+              Examples
+            </span>
+            <div className="flex flex-wrap justify-center gap-2">
+              {movieSuggestions.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => setQuery(s)}
+                  className="px-3 py-1.5 rounded-full border border-border/50 bg-surface/70 text-text/80 hover:bg-surface/80 hover:text-text transition text-sm active:scale-95"
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       )}
 
       {movies.length > 0 && (
@@ -115,7 +151,7 @@ export default function SearchPage() {
               rowHeight={rowHeight}
               height={800}
               width={gridWidth}
-              style={{margin: '0 auto', overflow: 'hidden'}}
+              style={{ margin: "0 auto", overflow: "hidden" }}
               onItemsRendered={({
                 visibleRowStartIndex,
                 visibleRowStopIndex,

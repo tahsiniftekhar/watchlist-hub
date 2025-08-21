@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AuthContext } from "../lib/auth-utils";
-import { tempUsers } from "../lib/temp-users";
+import { tempUsers } from "@/constants";
 import { type User } from "../types/auth.types";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {

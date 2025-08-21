@@ -2,11 +2,17 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 
 export default function SearchBar({
+  value,
   onSearch,
 }: {
+  value: string;
   onSearch: (q: string) => void;
 }) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(value);
+
+  if (query !== value) {
+    setTimeout(() => setQuery(value), 0);
+  }
   return (
     <div className="relative w-full max-w-md mx-auto py-6">
       <input
