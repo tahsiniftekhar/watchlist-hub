@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { AuthContext, getTempUsers, setTempUsers } from "@/lib/auth-utils";
 import { type User } from "@/types/auth.types";
+import { useState } from "react";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {

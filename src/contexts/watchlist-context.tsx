@@ -2,20 +2,13 @@ import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useAuth } from "@/lib/auth-utils";
 import { WatchlistContext } from "@/lib/watchlist-utils";
 import type { IMovie } from "@/types/movie.types";
-import { useEffect } from "react";
 
 export function WatchlistProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   const [watchlist, setWatchlist] = useLocalStorage<IMovie[]>(
-    `watchlist_${user?.id}`,
+    user?.id ? `watchlist_${user.id}` : "guest_watchlist",
     []
   );
-
-  useEffect(() => {
-    if (!user) {
-      setWatchlist([]);
-    }
-  }, [user, setWatchlist]);
 
   const addMovie = (m: IMovie) =>
     setWatchlist((prev: IMovie[]) => [

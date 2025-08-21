@@ -11,6 +11,6 @@ export interface IMovie {
 
 export type WatchlistContextType = {
   watchlist: IMovie[];
-  addMovie: (m: IMovie) => void;
+  addMovie: (movie: IMovie) => void;
   removeMovie: (id: number) => void;
 };
