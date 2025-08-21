@@ -1,6 +1,6 @@
 # WatchlistHub: Your Personal Movie Watchlist App
 
-![WatchlistHub Demo Placeholder](https://via.placeholder.com/800x400?text=Demo+Video+Placeholder)
+
 
 WatchlistHub is a modern web application for managing your personal movie watchlist. Built with React and Tailwind CSS.
 
@@ -19,8 +19,8 @@ WatchlistHub is a modern web application for managing your personal movie watchl
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/your-username/movie-watchlist.git
-    cd movie-watchlist
+    git clone https://github.com/tahsiniftekhar/watchlist-hub.git
+    cd watchlist-hub
     ```
 
 2.  **Install dependencies:**
@@ -34,7 +34,7 @@ WatchlistHub is a modern web application for managing your personal movie watchl
     - Sign up for a free API key at [The Movie Database (TMDB)](https://www.themoviedb.org/).
     - Create a `.env` file in the project root (if it doesn't exist) and add your API key:
       ```
-      VITE_TMDB_API_KEY=YOUR_API_KEY_HERE
+      VITE_TMDB_KEY=YOUR_KEY_HERE
       ```
 
 4.  **Run the development server:**
@@ -55,12 +55,3 @@ WatchlistHub is a modern web application for managing your personal movie watchl
 - **Authentication**: A mock authentication system is used. You can log in with any email and password combination. The user session is stored in `localStorage`.
 - **Watchlist Persistence**: The watchlist data is stored in `localStorage` under a user-specific key, ensuring each logged-in user has their unique watchlist.
 - **Responsive Design**: The application utilizes Tailwind CSS breakpoints and flexible layouts to adapt to various screen sizes, from mobile phones to large desktops.
-
-## Demo Video
-
-[Google Drive Link to Demo Video - Coming Soon]
-(https://drive.google.com/your-demo-video-link-here)
-
----
-
-Feel free to explore the codebase and provide feedback!
