@@ -5,6 +5,7 @@ export const ROUTE_TITLES: { [key: string]: string } = {
   "/search": "Search Movies",
   "/watchlist": "My Watchlist",
   "/login": "Login",
+  "/signup": "Sign Up",
   "/playground": "Playground",
   "/movie/:id": "Movie Details",
 };

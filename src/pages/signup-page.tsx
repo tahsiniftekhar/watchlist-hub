@@ -1,6 +1,6 @@
 import { useAuth } from "@/lib/auth-utils";
-import { pageTransition } from "@/lib/motion-utils";
-import { motion } from "framer-motion";
+import { buttonMotion, pageTransition } from "@/lib/motion-utils";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -37,51 +37,51 @@ export default function SignupPage() {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="flex items-center justify-center min-h-screen"
+      className="h-screen flex items-center justify-center bg-bg"
     >
-      <div className="w-full max-w-md p-8 space-y-6 bg-surface rounded-lg shadow-lg">
-        <h2 className="text-3xl font-bold text-center text-primary">Sign Up</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-muted-foreground"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary bg-secondary text-text"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-muted-foreground"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary bg-secondary text-text"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed transition"
-          >
-            {isLoading ? "Signing Up..." : "Sign Up"}
-          </button>
-        </form>
+      <motion.form
+        onSubmit={handleSubmit}
+        className="bg-surface rounded-3xl shadow-2xl p-10 w-full max-w-md space-y-8 border border-border"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
+        <h1 className="text-3xl font-extrabold text-center text-primary mb-2 tracking-tight">
+          Sign up to WatchlistHub
+        </h1>
+        <p className="text-center text-muted-foreground mb-6 text-base">
+          Create your account to continue
+        </p>
+        <AnimatePresence mode="wait">
+        </AnimatePresence>
+        <div className="space-y-4">
+          <input
+            className="w-full px-4 py-3 rounded-lg bg-bg border border-border text-text placeholder:text-muted focus:outline-none focus:border-primary transition"
+            placeholder="Email"
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            className="w-full px-4 py-3 rounded-lg bg-bg border border-border text-text placeholder:text-muted focus:outline-none focus:border-primary transition"
+            placeholder="Password"
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <motion.button
+          {...buttonMotion}
+          type="submit"
+          disabled={isLoading}
+          className="w-full bg-primary text-text py-3 rounded-lg font-bold text-lg shadow-md hover:bg-primary-dark transition mt-2"
+        >
+          {isLoading ? "Signing Up..." : "Sign Up"}
+        </motion.button>
         <p className="text-center text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link
@@ -91,7 +91,7 @@ export default function SignupPage() {
             Login
           </Link>
         </p>
-      </div>
+      </motion.form>
     </motion.div>
   );
 }
