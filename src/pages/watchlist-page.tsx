@@ -89,7 +89,10 @@ export default function WatchlistPage() {
                 />
 
                 <motion.button
-                  onClick={() => removeMovie(movie.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeMovie(movie.id);
+                  }}
                   className="absolute top-2 right-2 p-2 rounded-full text-text bg-danger hover:bg-danger-dark transition opacity-0 group-hover:opacity-100"
                   {...iconButtonMotion}
                   aria-label="Remove from watchlist"
