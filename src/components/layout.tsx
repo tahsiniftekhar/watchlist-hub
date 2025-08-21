@@ -88,71 +88,70 @@ export default function Layout() {
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-      </header>
-
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.nav
-            variants={slideInRight}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            className="md:hidden flex flex-col items-end gap-4 p-4 bg-surface backdrop-blur w-full z-10 text-xs"
-          >
-            <NavLink
-              to="/search"
-              className={({ isActive }) =>
-                `flex items-center justify-end gap-1 hover:text-primary transition ${
-                  isActive ? "text-primary" : "text-text"
-                } active:scale-95`
-              }
-              onClick={() => setIsMobileMenuOpen(false)}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.nav
+              variants={slideInRight}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              className="md:hidden fixed top-[60px] right-5 h-auto w-1/3 flex flex-col gap-4 p-4 bg-surface backdrop-blur z-10 text-xs"
             >
-              <Search size={20} />
-              Search
-            </NavLink>
-            {user ? (
-              <>
-                <NavLink
-                  to="/watchlist"
-                  className={({ isActive }) =>
-                    `flex items-center justify-end gap-1 hover:text-primary transition ${
-                      isActive ? "text-primary" : "text-text"
-                    } active:scale-95`
-                  }
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <Heart size={20} />
-                  Watchlist
-                </NavLink>
-                <button
-                  onClick={() => {
-                    logout();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="flex items-center justify-end gap-1 hover:text-primary transition text-text active:scale-95"
-                >
-                  <LogOut size={20} />
-                  Logout
-                </button>
-              </>
-            ) : (
               <NavLink
-                to="/login"
+                to="/search"
                 className={({ isActive }) =>
-                  `flex items-center justify-end gap-1 hover:text-primary transition ${
+                  `flex items-center justify-end self-end gap-1 hover:text-primary transition ${
                     isActive ? "text-primary" : "text-text"
                   } active:scale-95`
                 }
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <LogIn size={20} />
-                Login
+                <Search size={20} />
+                Search
               </NavLink>
-            )}
-          </motion.nav>
-        )}
-      </AnimatePresence>
+              {user ? (
+                <>
+                  <NavLink
+                    to="/watchlist"
+                    className={({ isActive }) =>
+                      `flex items-center justify-end self-end gap-1 hover:text-primary transition ${
+                        isActive ? "text-primary" : "text-text"
+                      } active:scale-95`
+                    }
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Heart size={20} />
+                    Watchlist
+                  </NavLink>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center justify-end self-end gap-1 hover:text-primary transition text-text active:scale-95"
+                  >
+                    <LogOut size={20} />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    `flex items-center justify-end self-end gap-1 hover:text-primary transition ${
+                      isActive ? "text-primary" : "text-text"
+                    } active:scale-95`
+                  }
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <LogIn size={20} />
+                  Login
+                </NavLink>
+              )}
+            </motion.nav>
+          )}
+        </AnimatePresence>
+      </header>
 
       <main className="flex-1 p-4 sm:p-6 md:p-8 max-w-full mx-auto w-full">
         <AnimatePresence mode="wait">
