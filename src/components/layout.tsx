@@ -1,7 +1,7 @@
 import { useAuth } from "@/lib/auth-utils";
 import { slideInRight } from "@/lib/motion-utils";
 import { AnimatePresence, motion } from "framer-motion";
-import { Heart, LogIn, LogOut, Menu, Search, X } from "lucide-react";
+import { Heart, LogIn, LogOut, Menu, Search, UserPlus, X } from "lucide-react";
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
@@ -57,25 +57,32 @@ export default function Layout() {
           WatchlistHub
         </Link>
 
-        <nav className="hidden md:flex items-center gap-5 text-sm">
-          <NavItem to="/search" icon={<Search size={20} />} label="Search" />
+        <nav className="hidden md:flex items-center gap-2 text-sm">
+          <NavItem to="/search" icon={<Search size={16} />} label="Search" />
           {user ? (
             <>
               <NavItem
                 to="/watchlist"
-                icon={<Heart size={20} />}
+                icon={<Heart size={16} />}
                 label="Watchlist"
               />
               <button
                 onClick={logout}
                 className="flex items-center gap-1 hover:text-primary transition text-muted active:scale-95"
               >
-                <LogOut size={20} />
+                <LogOut size={16} />
                 Logout
               </button>
             </>
           ) : (
-            <NavItem to="/login" icon={<LogIn size={20} />} label="Login" />
+            <>
+              <NavItem to="/login" icon={<LogIn size={16} />} label="Login" />
+              <NavItem
+                to="/signup"
+                icon={<UserPlus size={16} />}
+                label="Sign Up"
+              />
+            </>
           )}
         </nav>
 
@@ -106,7 +113,7 @@ export default function Layout() {
                 }
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <Search size={20} />
+                <Search size={16} />
                 Search
               </NavLink>
               {user ? (
@@ -120,7 +127,7 @@ export default function Layout() {
                     }
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Heart size={20} />
+                    <Heart size={16} />
                     Watchlist
                   </NavLink>
                   <button
@@ -130,23 +137,37 @@ export default function Layout() {
                     }}
                     className="flex items-center justify-end self-end gap-1 hover:text-primary transition text-text active:scale-95"
                   >
-                    <LogOut size={20} />
+                    <LogOut size={16} />
                     Logout
                   </button>
                 </>
               ) : (
-                <NavLink
-                  to="/login"
-                  className={({ isActive }) =>
-                    `flex items-center justify-end self-end gap-1 hover:text-primary transition ${
-                      isActive ? "text-primary" : "text-text"
-                    } active:scale-95`
-                  }
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <LogIn size={20} />
-                  Login
-                </NavLink>
+                <>
+                  <NavLink
+                    to="/login"
+                    className={({ isActive }) =>
+                      `flex items-center justify-end self-end gap-1 hover:text-primary transition ${
+                        isActive ? "text-primary" : "text-text"
+                      } active:scale-95`
+                    }
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <LogIn size={16} />
+                    Login
+                  </NavLink>
+                  <NavLink
+                    to="/signup"
+                    className={({ isActive }) =>
+                      `flex items-center justify-end self-end gap-1 hover:text-primary transition ${
+                        isActive ? "text-primary" : "text-text"
+                      } active:scale-95`
+                    }
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <UserPlus size={16} />
+                    Sign Up
+                  </NavLink>
+                </>
               )}
             </motion.nav>
           )}

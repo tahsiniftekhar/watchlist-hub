@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { AuthContext } from "../lib/auth-utils";
-import { tempUsers } from "@/constants";
-import { type User } from "../types/auth.types";
+import { AuthContext, getTempUsers, setTempUsers } from "@/lib/auth-utils";
+import { type User } from "@/types/auth.types";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
@@ -10,7 +9,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   });
 
   const login = async (email: string, password: string) => {
-    const found = tempUsers.find(
+    const currentUsers = getTempUsers();
+    const found = currentUsers.find(
       (u) => u.email === email && u.password === password
     );
 
@@ -23,13 +23,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return false;
   };
 
+  const signup = async (email: string, password: string) => {
+    const currentUsers = getTempUsers();
+    const userExists = currentUsers.some((u) => u.email === email);
+
+    if (userExists) {
+      return false;
+    }
+
+    const newUser: User = {
+      id: Date.now().toString(),
+      email,
+      password,
+    };
+    const updatedUsers = [...currentUsers, newUser];
+    setTempUsers(updatedUsers);
+
+    setUser({ id: newUser.id, email: newUser.email });
+    localStorage.setItem(
+      "user",
+      JSON.stringify({ id: newUser.id, email: newUser.email })
+    );
+    return true;
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );

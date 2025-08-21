@@ -1,8 +1,8 @@
+import { buttonMotion, pageTransition } from "@/lib/motion-utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../lib/auth-utils";
-import { pageTransition, buttonMotion } from "@/lib/motion-utils";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/lib/auth-utils";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -77,6 +77,15 @@ export default function LoginPage() {
         >
           Login
         </motion.button>
+        <p className="text-center text-sm text-muted-foreground">
+          Don't have an account?{" "}
+          <Link
+            to="/signup"
+            className="font-medium text-primary hover:text-primary-dark"
+          >
+            Sign Up here
+          </Link>
+        </p>
       </motion.form>
     </motion.div>
   );

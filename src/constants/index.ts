@@ -9,6 +9,8 @@ export const ROUTE_TITLES: { [key: string]: string } = {
   "/movie/:id": "Movie Details",
 };
 
+export const TEMP_LOCAL_STORAGE_USERS_KEY = "tempUsers";
+
 export const tempUsers = [
   { id: "1", email: "anthony@russo.com", password: "123456" },
   { id: "2", email: "test@example.com", password: "password" },

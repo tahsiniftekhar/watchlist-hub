@@ -8,6 +8,7 @@ const AuthGuard = lazy(() => import("@/components/auth-guard"));
 const SearchPage = lazy(() => import("@/pages/search-page"));
 const DetailsPage = lazy(() => import("@/pages/details-page"));
 const LoginPage = lazy(() => import("@/pages/login-page"));
+const SignupPage = lazy(() => import("@/pages/signup-page"));
 const PlaygroundPage = lazy(() => import("@/pages/playground-page"));
 const WatchlistPage = lazy(() => import("@/pages/watchlist-page"));
 const NotFoundPage = lazy(() =>
@@ -45,6 +46,7 @@ export default function App() {
     >
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/playground" element={<PlaygroundPage />} />
         <Route element={<Layout />}>
           <Route path="/search" element={<SearchPage />} />
