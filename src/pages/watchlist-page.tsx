@@ -104,14 +104,16 @@ export default function WatchlistPage() {
                 <Trash2 size={18} />
               </motion.button>
 
-              <div className="p-3 flex-1 flex flex-col justify-between">
-                <div>
-                  <h2 className="font-semibold truncate text-base md:text-lg">
-                    {movie.title}
-                  </h2>
-                  <p className="text-sm text-muted">
-                    {movie.release_date?.slice(0, 4)}
-                  </p>
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+              <div className="absolute inset-x-0 bottom-0 p-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                <h3 className="font-semibold text-white text-sm sm:text-base truncate">
+                  {movie.title}
+                </h3>
+                <div className="mt-1 flex items-center gap-2 text-[11px] text-white/80">
+                  {movie.release_date?.slice(0, 4) && (
+                    <span>{movie.release_date.slice(0, 4)}</span>
+                  )}
                 </div>
               </div>
             </motion.li>

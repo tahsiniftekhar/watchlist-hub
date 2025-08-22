@@ -50,7 +50,7 @@ export default function MovieCard({ movie }: { movie: IMovie }) {
       animate={inView ? "visible" : "hidden"}
       {...cardMotion}
     >
-      <div className="block overflow-hidden bg-surface/80 ring-1 ring-border/40 hover:ring-border transition relative group rounded-sm shadow-sm shadow-gray-950">
+      <div className="block overflow-hidden bg-surface/80 ring-1 ring-border/40 hover:ring-border transition relative group rounded-sm shadow-sm shadow-gray-950 cursor-pointer">
         <Link to={`/movie/${movie.id}`} className="absolute inset-0 z-0" />
         <img
           src={posterSrc}
