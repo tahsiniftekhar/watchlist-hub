@@ -67,51 +67,53 @@ export default function WatchlistPage() {
                 boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
               }}
               whileTap={{ scale: 0.97 }}
-              className="relative bg-surface rounded-xl overflow-hidden shadow-lg flex flex-col group cursor-pointer"
+              className="relative bg-surface rounded-sm overflow-hidden shadow-sm shadow-gray-950 flex flex-col group cursor-pointer"
             >
-              <Link to={`/movie/${movie.id}`}>
-                <img
-                  src={
-                    movie.poster_path
-                      ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
-                      : placeholder
-                  }
-                  srcSet={
-                    movie.poster_path
-                      ? `https://image.tmdb.org/t/p/w185${movie.poster_path} 185w, https://image.tmdb.org/t/p/w342${movie.poster_path} 342w, https://image.tmdb.org/t/p/w500${movie.poster_path} 500w`
-                      : undefined
-                  }
-                  sizes="(max-width: 640px) 185px, (max-width: 1024px) 342px, 500px"
-                  alt={movie.title}
-                  className="aspect-[2/3] w-full object-cover"
-                  loading="lazy"
-                  onError={handleImgError}
-                />
+              <Link
+                to={`/movie/${movie.id}`}
+                className="absolute inset-0 z-0"
+              />
+              <img
+                src={
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
+                    : placeholder
+                }
+                srcSet={
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w185${movie.poster_path} 185w, https://image.tmdb.org/t/p/w342${movie.poster_path} 342w, https://image.tmdb.org/t/p/w500${movie.poster_path} 500w`
+                    : undefined
+                }
+                sizes="(max-width: 640px) 185px, (max-width: 1024px) 342px, 500px"
+                alt={movie.title}
+                className="aspect-[2/3] w-full object-cover"
+                loading="lazy"
+                onError={handleImgError}
+              />
 
-                <motion.button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    removeMovie(movie.id);
-                  }}
-                  className="absolute top-2 right-2 p-2 rounded-full text-text bg-danger hover:bg-danger-dark transition opacity-0 group-hover:opacity-100"
-                  {...iconButtonMotion}
-                  aria-label="Remove from watchlist"
-                >
-                  <Trash2 size={18} />
-                </motion.button>
+              <motion.button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  removeMovie(movie.id);
+                }}
+                className="absolute top-2 right-2 p-2 rounded-full text-text bg-danger hover:bg-danger-dark transition opacity-0 group-hover:opacity-100"
+                {...iconButtonMotion}
+                aria-label="Remove from watchlist"
+              >
+                <Trash2 size={18} />
+              </motion.button>
 
-                <div className="p-3 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h2 className="font-semibold truncate text-base md:text-lg">
-                      {movie.title}
-                    </h2>
-                    <p className="text-sm text-muted">
-                      {movie.release_date?.slice(0, 4)}
-                    </p>
-                  </div>
+              <div className="p-3 flex-1 flex flex-col justify-between">
+                <div>
+                  <h2 className="font-semibold truncate text-base md:text-lg">
+                    {movie.title}
+                  </h2>
+                  <p className="text-sm text-muted">
+                    {movie.release_date?.slice(0, 4)}
+                  </p>
                 </div>
-              </Link>
+              </div>
             </motion.li>
           );
         })}
